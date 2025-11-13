@@ -310,14 +310,18 @@ function lib:init(ti, sub_ti, dosplash, visiblekey, deleteprevious)
 
 
     -- 🚀 NEW: Hidden UI Indicator Tab (v4 - Fixed Stroke/Clipping)
-    local collapsedSize = UDim2.new(0, 40, 0, 40) -- 🚀 v13: Made bigger
-    local expandedSize = UDim2.new(0, 180, 0, 40) -- 🚀 v13: Made bigger
+    -- 🚀 OPTIMIZED: Use variables for easier size management
+    local indicatorHeight = 50
+    local collapsedWidth = 50
+    local expandedWidth = 200
+    local collapsedSize = UDim2.new(0, collapsedWidth, 0, indicatorHeight)
+    local expandedSize = UDim2.new(0, expandedWidth, 0, indicatorHeight)
     local hiddenIndicator = Instance.new("TextButton") -- This is the main container/hitbox
     hiddenIndicator.AutoButtonColor = false
     hiddenIndicator.Name = "HiddenIndicator"
     hiddenIndicator.Parent = scrgui
-    hiddenIndicator.AnchorPoint = Vector2.new(1, 0) 
-    hiddenIndicator.Position = UDim2.new(1, 190, 0.7, 0) -- 🚀 v13: Start off-screen
+    hiddenIndicator.AnchorPoint = Vector2.new(1, 0.5) 
+    hiddenIndicator.Position = UDim2.new(1, expandedWidth, 0.5, 0) -- 🚀 Start off-screen, centered vertically
     hiddenIndicator.Size = collapsedSize -- Start collapsed
     hiddenIndicator.BackgroundTransparency = 1 -- 🚀 Main container is TRANSPARENT
     hiddenIndicator.ZIndex = 8
@@ -336,20 +340,20 @@ function lib:init(ti, sub_ti, dosplash, visiblekey, deleteprevious)
 
     local hiLogo = Instance.new("ImageLabel", hiBackground) -- 🚀 Parent to hiBackground
     hiLogo.BackgroundTransparency = 1
-    hiLogo.Size = UDim2.new(0, 40, 0, 40) -- 🚀 v13: Made bigger
-    hiLogo.Position = UDim2.new(0, 0, 0.5, 0) -- 🚀 v13: Adjusted position
+    hiLogo.Size = UDim2.new(0, indicatorHeight, 0, indicatorHeight) -- 🚀 Make logo a square based on height
+    hiLogo.Position = UDim2.new(0, 0, 0.5, 0)
     hiLogo.AnchorPoint = Vector2.new(0, 0.5)
     hiLogo.Image = "rbxassetid://101129417614969"
     hiLogo.ZIndex = 10 
 
     local hiText = Instance.new("TextLabel", hiBackground) -- 🚀 Parent to hiBackground
     hiText.BackgroundTransparency = 1
-    hiText.Position = UDim2.new(0, 70, 0.5, 0) -- 🚀 v13: Adjusted position
-    hiText.Size = UDim2.new(1, -85, 1, -10) -- 🚀 v13: Adjusted size
+    hiText.Position = UDim2.new(0, indicatorHeight + 10, 0.5, 0) -- 🚀 Position right of logo with padding
+    hiText.Size = UDim2.new(1, -(indicatorHeight + 20), 1, 0) -- 🚀 Fill remaining space with padding
     hiText.AnchorPoint = Vector2.new(0, 0.5)
     hiText.Font = Theme.Fonts.Body
-    hiText.TextColor3 = Theme.Colors.Text
-    hiText.TextSize = 14
+    hiText.TextColor3 = Theme.Colors.TextDark
+    hiText.TextSize = 16 -- 🚀 Slightly larger text
     hiText.ZIndex = 10
     hiText.Text = "Press " .. visiblekey.Name .. " to show" 
     hiText.TextXAlignment = Enum.TextXAlignment.Left
